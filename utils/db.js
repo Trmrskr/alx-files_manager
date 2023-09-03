@@ -8,7 +8,13 @@ const database = process.env.DB_DATABASE || 'files_manager';
 const dbUrl = `mongodb://${host}:${port}/${database}`;
 
 class DBClient {
+  /**
+   * DB Client class
+   */
   constructor() {
+    /**
+     * Constructor
+     */
     this.client = new mongodb.MongoClient(dbUrl, { useUnifiedTopology: true });
     this.client.connect();
     this.usersCollection = this.client.db().collection('users');
@@ -16,14 +22,17 @@ class DBClient {
   }
 
   isAlive() {
+    // if redis is connnected return true else return false
     return this.client.isConnected();
   }
 
   async nbUsers() {
+    // return number of users
     return this.usersCollection.countDocuments();
   }
- 
+
   async nbFiles() {
+    // return number of files
     return this.filesCollection.countDocuments();
   }
 }
